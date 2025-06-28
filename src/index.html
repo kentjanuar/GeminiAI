@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Universitas Kristen Petra - Customer Service AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-content">
+      <h1>� Universitas Kristen Petra Customer Service AI</h1>
+    </div>
+  </header>
+
+  <!-- Knowledge Base Status Indicator -->
+  <div id="kb-status" class="kb-status loading" style="display: none;">
+    📚 Loading Knowledge Base...
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h2>� Selamat Datang di Layanan Customer Service Universitas Kristen Petra</h2>
+      <p>
+        Dapatkan bantuan terkait program studi, pendaftaran, beasiswa, fasilitas kampus, dan informasi akademik lainnya.<br>
+        <strong>✨ Sistem AI kami dilengkapi dengan knowledge base Universitas Kristen Petra untuk jawaban yang lebih akurat!</strong><br>
+        Klik tombol <b>Customer Service</b> di kanan bawah untuk memulai chat!
+      </p>
+    </div>
+  </section>
+
+  <!-- Floating Chat Button -->
+  <button id="cs-float-btn" class="cs-float-btn">
+    Customer Service
+  </button>
+
+  <!-- Chat Widget (Initially Hidden) -->
+  <div id="chat-widget" class="chat-widget">
+    <div class="chat-header">
+      <button id="callBotBtn" class="call-btn" title="Telepon Bot">📞</button>
+      <span>Customer Service</span>
+      <button id="closeChat" class="close-btn" title="Tutup">&times;</button>
+    </div>
+    <div id="chatbox" class="chatbox">
+      <!-- Chat history will appear here -->
+    </div>
+    <div class="input-container">
+      <input id="userInput" type="text" placeholder="Ketik pesan Anda..." autocomplete="off" />
+      <input id="fileInput" type="file" accept="image/*,application/pdf,text/*" style="display: none;" />
+      <input id="pdfFileInput" type="file" accept=".pdf,image/*" multiple style="display: none;" />
+      <button id="micBtn" title="Klik untuk berbicara">🎤</button>
+      <button id="uploadBtn" title="Upload File/Gambar untuk Chat">📂</button>
+      <button id="pdfUploadBtn" title="Upload PDF/Gambar untuk Knowledge Base" class="pdf-upload-btn">🧠</button>
+      <button id="sendBtn">Kirim</button>
+    </div>
+  </div>
+
+  <!-- Call Popup -->
+  <div id="call-popup" class="call-popup">
+    <div class="call-popup-content">
+      <div class="call-anim">
+        <div class="bot-face">
+          <div class="bot-mouth" id="botMouth"></div>
+        </div>
+        <div class="call-status" id="callStatus">Menghubungi bot...</div>
+        <div class="speech-text" id="speechText"></div>
+      </div>
+      <div class="call-controls">
+        <button id="callMicBtn" class="call-mic-btn" title="Klik untuk berbicara">🎤</button>
+        <button id="endCallBtn" class="end-call-btn">Tutup Telepon</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js" type="module"></script>
+  <script src="demo.js" type="module"></script>
+</body>
+</html>

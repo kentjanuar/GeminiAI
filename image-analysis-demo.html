@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Analisis Gambar - BCA AI Customer Service</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .demo-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #8bbabb;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #8bbabb;
+        }
+        .feature-card h3 {
+            color: #333;
+            margin: 0 0 10px 0;
+        }
+        .example-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .example-img {
+            width: 150px;
+            height: 100px;
+            background: #e9ecef;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #6c757d;
+            border: 2px dashed #dee2e6;
+        }
+        .instructions {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .instructions h3 {
+            color: #0c7489;
+            margin-top: 0;
+        }
+        .instructions ol {
+            color: #2c5530;
+        }
+        .start-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #8bbabb, #a8ccd3);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        .start-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🏧 Demo Analisis Gambar - BCA AI Customer Service</h1>
+        
+        <p style="text-align: center; color: #666; font-size: 1.1rem;">
+            Sistem AI kami sekarang dapat menganalisis gambar dan memberikan bantuan visual untuk layanan perbankan!
+        </p>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>📄 Analisis Dokumen Banking</h3>
+                <p>Upload foto dokumen seperti:</p>
+                <ul>
+                    <li>Struk ATM</li>
+                    <li>Bukti transfer</li>
+                    <li>Formulir aplikasi</li>
+                    <li>Kartu debit/kredit</li>
+                </ul>
+                <div class="example-images">
+                    <div class="example-img">📄</div>
+                    <div class="example-img">🧾</div>
+                    <div class="example-img">💳</div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h3>📱 Screenshot Mobile Banking</h3>
+                <p>Dapatkan bantuan untuk:</p>
+                <ul>
+                    <li>Error messages</li>
+                    <li>Navigasi aplikasi</li>
+                    <li>Proses transaksi</li>
+                    <li>Verifikasi langkah</li>
+                </ul>
+                <div class="example-images">
+                    <div class="example-img">📱</div>
+                    <div class="example-img">⚠️</div>
+                    <div class="example-img">✅</div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h3>🏧 Masalah ATM</h3>
+                <p>Upload foto masalah:</p>
+                <ul>
+                    <li>Layar error ATM</li>
+                    <li>Kartu tersangkut</li>
+                    <li>Pesan kesalahan</li>
+                    <li>Status transaksi</li>
+                </ul>
+                <div class="example-images">
+                    <div class="example-img">🏧</div>
+                    <div class="example-img">❌</div>
+                    <div class="example-img">🔧</div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h3>📝 OCR Teks Banking</h3>
+                <p>Sistem dapat membaca:</p>
+                <ul>
+                    <li>Nomor rekening</li>
+                    <li>Kode transaksi</li>
+                    <li>Nominal transfer</li>
+                    <li>Data formulir</li>
+                </ul>
+                <div class="example-images">
+                    <div class="example-img">🔤</div>
+                    <div class="example-img">🔢</div>
+                    <div class="example-img">📊</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Cara Menggunakan Fitur Analisis Gambar:</h3>
+            <ol>
+                <li>Klik tombol "Customer Service" di website utama</li>
+                <li>Klik tombol upload (📂) di chat</li>
+                <li>Pilih gambar dari device Anda (JPG, PNG, GIF, WebP)</li>
+                <li>Ketik pertanyaan atau biarkan kosong untuk analisis otomatis</li>
+                <li>AI akan menganalisis gambar dan memberikan bantuan yang sesuai</li>
+            </ol>
+            
+            <h3>🔒 Keamanan & Privasi:</h3>
+            <ul>
+                <li>✅ Gambar diproses secara real-time dan tidak disimpan</li>
+                <li>✅ Data sensitif (PIN, password) otomatis disensor</li>
+                <li>✅ Hanya informasi yang diperlukan untuk bantuan yang dianalisis</li>
+                <li>✅ Enkripsi end-to-end untuk keamanan maksimal</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="start-btn">
+            🚀 Mulai Chat dengan AI
+        </a>
+
+        <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 10px; border-left: 4px solid #ffc107;">
+            <h4 style="color: #856404; margin-top: 0;">💡 Tips untuk Hasil Terbaik:</h4>
+            <ul style="color: #856404;">
+                <li>Pastikan gambar jelas dan tidak blur</li>
+                <li>Gunakan pencahayaan yang cukup</li>
+                <li>Potong bagian yang tidak perlu dari gambar</li>
+                <li>Untuk dokumen, pastikan semua teks terbaca dengan jelas</li>
+                <li>Tutupi informasi sensitif (nomor kartu lengkap, PIN) sebelum upload</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
