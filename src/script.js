@@ -759,9 +759,8 @@ async function processPDFUpload(files) {
     const fileNames = Array.from(files).map(f => f.name).join(', ');
     const fileTypes = [];
     if (pdfFiles.length > 0) fileTypes.push(`${pdfFiles.length} PDF`);
-    if (imageFiles.length > 0) fileTypes.push(`${imageFiles.length} gambar`);
     
-    addSystemMessage(`✅ Berhasil memproses ${allChunks.length} chunks dari ${fileTypes.join(' dan ')}: ${fileNames}`);
+    addSystemMessage(`✅ Berhasil memproses ${allChunks.length} chunks dari ${pdfFiles.length} PDF: ${fileNames}`);
     addSystemMessage("🧠 Mode RAG sekarang aktif! Saya akan menjawab berdasarkan dokumen yang diupload.");
     addSystemMessage("💡 TIP: Tanyakan hal spesifik tentang isi dokumen untuk hasil terbaik.");
     

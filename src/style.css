@@ -3,91 +3,173 @@ body, html {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+  background: #ffffff;
   min-height: 100vh;
+  color: #333333;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 /* Header Styling */
 .main-header {
-  background: linear-gradient(135deg, #003366, #0066cc);
-  color: white;
-  text-align: center;
-  padding: 1.5rem 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
+  background-color: #fff;
+  color: #333;
+  padding: 0.5rem 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
+
 .header-content {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  max-width: 1200px;
+  justify-content: space-between;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
 }
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .pcu-logo {
   height: 60px;
   width: auto;
-  max-width: 200px;
   object-fit: contain;
 }
-.main-header h1 {
-  margin: 0;
-  font-size: 2rem;
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
   font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  line-height: 1.1;
 }
 
-.hero-section {
-  margin-top: 80px;
+.logo-text span:first-child {
+  font-size: 1.2rem;
+}
+
+.logo-text span {
+  font-size: 0.8rem;
+}
+
+.nav-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.search-lang {
+  display: flex;
   align-items: center;
-  min-height: 40vh;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
-.hero-content {
-  background: #f6f7fb;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(180,180,200,0.08);
-  padding: 40px 32px 32px 32px;
-  max-width: 600px;
-  text-align: center;
+
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
 }
-.hero-content h2 {
-  margin-top: 0;
-  font-size: 2rem;
-  color: #8bbabb;
-  margin-bottom: 12px;
+
+.language-selector {
+  font-size: 0.9rem;
   font-weight: 600;
 }
-.hero-content p {
-  color: #6d7b8a;
-  font-size: 1.1rem;
-  margin-bottom: 0;
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-button {
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.nav-button:hover {
+  color: #0066cc;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+}
+
+/* Hero Section Styling */
+.hero-section {
+  position: relative;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 6rem;
+  background-image: url('./backgroud.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
+.bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  text-align: left;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .cs-float-btn {
   position: fixed;
   right: 32px;
   bottom: 32px;
-  background: linear-gradient(90deg, #b6e2d3 60%, #f7cac9 100%);
-  color: #6d7b8a;
+  background-color: #4CAF50;
+  color: white;
   border: none;
-  border-radius: 30px;
-  padding: 16px 28px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  box-shadow: 0 6px 24px rgba(180,180,200,0.15);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 1.8rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  z-index: 100;
+  z-index: 2000; /* Increased z-index to match chat-widget */
   display: flex;
   align-items: center;
-  gap: 10px;
-  transition: background 0.2s, box-shadow 0.2s;
+  justify-content: center;
+  transition: background-color 0.3s, transform 0.2s;
 }
 .cs-float-btn:hover {
-  background: linear-gradient(90deg, #f7cac9 60%, #b6e2d3 100%);
-  box-shadow: 0 8px 32px rgba(180,180,200,0.22);
+  background-color: #45a049;
+  transform: scale(1.05);
 }
 
 /* --- CHAT WIDGET --- */
@@ -97,15 +179,15 @@ body, html {
   bottom: 90px;
   width: 480px;
   max-width: 98vw;
-  height: 650px;
-  max-height: 90vh;
+  height: calc(100vh - 140px); /* Adjusted height to avoid header */
+  max-height: calc(90vh - 70px); /* Adjusted max-height to avoid header */
   background: #f6f7fb;
   border-radius: 18px;
   box-shadow: 0 8px 32px rgba(180,180,200,0.18);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  z-index: 200;
+  z-index: 2000; /* Increased z-index to be higher than the header */
   opacity: 0;
   pointer-events: none;
   transform: translateY(30px) scale(0.98);
@@ -119,8 +201,8 @@ body, html {
 }
 
 .chat-header {
-  background: linear-gradient(90deg, #b6e2d3 60%, #f7cac9 100%);
-  color: #6d7b8a;
+  background: #1e3650; /* PCU blue color */
+  color: white;
   padding: 16px 20px;
   font-size: 1.1rem;
   font-weight: 600;
@@ -129,10 +211,12 @@ body, html {
   justify-content: center;
   position: relative;
   gap: 0;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
 }
 .chat-header .call-btn {
-  background: #e0e7ef;
-  color: #6d7b8a;
+  background: #f8a100; /* PCU gold accent color */
+  color: white;
   font-size: 1.2rem;
   border: none;
   border-radius: 50%;
@@ -154,11 +238,12 @@ body, html {
   flex: 1;
   text-align: center;
   font-size: 1.1rem;
+  color: white; /* Ensuring text is white */
 }
 .close-btn {
   background: transparent;
   border: none;
-  color: #6d7b8a;
+  color: white;
   font-size: 1.5rem;
   cursor: pointer;
   font-weight: bold;
@@ -167,7 +252,7 @@ body, html {
   transition: color 0.2s;
 }
 .close-btn:hover {
-  color: #b6e2d3;
+  color: #f8a100; /* PCU gold accent color */
 }
 
 .chatbox {
@@ -309,13 +394,13 @@ body, html {
   min-height: 50px;
 }
 .input-container input[type="text"]:focus {
-  border: 1.5px solid #b6e2d3;
+  border: 1.5px solid #1e3650; /* PCU blue color */
 }
 .input-container button {
   padding: 16px 20px;
   font-size: 1.2rem;
   color: #fff;
-  background-color: #b6e2d3;
+  background-color: #1e3650; /* PCU blue color */
   border: none;
   border-radius: 25px;
   cursor: pointer;
@@ -328,16 +413,17 @@ body, html {
   min-width: 60px;
 }
 .input-container button:hover {
-  background-color: #f7cac9;
+  background-color: #f8a100; /* PCU gold accent color */
 }
 #uploadBtn {
   background: #e0e7ef;
-  color: #6d7b8a;
+  color: #1e3650; /* PCU blue color */
   font-size: 1.3rem;
   padding: 16px 20px;
 }
 #uploadBtn:hover {
-  background: #b6e2d3;
+  background: #f8a100; /* PCU gold accent color */
+  color: white;
 }
 
 /* Mic Button Styling */
@@ -345,15 +431,15 @@ body, html {
   min-width: 40px;
   height: 40px;
   font-size: 1.1rem;
-  background-color: #4CAF50 !important;
+  background-color: #1e3650 !important; /* PCU blue color */
   color: white !important;
-  border: 2px solid #4CAF50 !important;
+  border: 2px solid #1e3650 !important;
   transition: all 0.3s ease;
 }
 
 #micBtn:hover {
-  background-color: #45a049 !important;
-  border-color: #45a049 !important;
+  background-color: #f8a100 !important; /* PCU gold accent color */
+  border-color: #f8a100 !important;
   transform: scale(1.05);
 }
 
@@ -623,9 +709,9 @@ body, html {
 
 /* PDF Upload Button */
 .pdf-upload-btn {
-  background: #8bbabb !important;
+  background: #1e3650 !important; /* PCU blue color */
   color: white !important;
-  border: 2px solid #8bbabb !important;
+  border: 2px solid #1e3650 !important;
   min-width: 40px;
   height: 40px;
   font-size: 1.1rem;
@@ -633,8 +719,8 @@ body, html {
 }
 
 .pdf-upload-btn:hover {
-  background: #7aa8a8 !important;
-  border-color: #7aa8a8 !important;
+  background: #f8a100 !important; /* PCU gold accent color */
+  border-color: #f8a100 !important;
   transform: scale(1.05);
 }
 
@@ -643,50 +729,135 @@ body, html {
   to { box-shadow: 0 2px 16px rgba(139, 186, 187, 0.8); }
 }
 
+/* Menu Navigation */
+.menu-navigation {
+  background: #1e3650;
+  padding: 1rem 0;
+}
+
+.menu-navigation ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin: 0;
+  padding: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.menu-navigation a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: opacity 0.2s;
+}
+
+.menu-navigation a:hover {
+  opacity: 0.8;
+}
+
+/* Info Boxes */
+.info-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.info-box:hover {
+  transform: translateY(-5px);
+}
+
+.info-icon {
+  font-size: 2.5rem;
+  color: #f8a100;
+  margin-bottom: 0.5rem;
+}
+
+.info-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
 /* Responsive Design */
+@media (max-width: 992px) {
+  .hero-section {
+    padding: 0 3rem;
+  }
+  
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .menu-navigation ul {
+    gap: 2rem;
+  }
+  
+  .info-boxes {
+    gap: 2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .header-content {
     flex-direction: column;
-    gap: 0.5rem;
+    align-items: flex-start;
   }
   
-  .pcu-logo {
-    height: 40px;
+  .nav-container {
+    width: 100%;
+    align-items: flex-start;
   }
   
-  .main-header h1 {
-    font-size: 1.5rem;
+  .main-nav {
+    display: none;
   }
   
-  .chat-widget {
-    width: calc(100vw - 20px);
-    height: calc(100vh - 120px);
-    right: 10px;
-    bottom: 10px;
-    border-radius: 15px;
+  .menu-btn {
+    display: block;
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
   }
   
-  .input-container {
-    padding: 12px 16px;
+  .hero-section {
+    padding: 0 2rem;
+    text-align: center;
+    justify-content: center;
   }
   
-  .input-container input[type="text"] {
-    padding: 12px 16px;
-    font-size: 1rem;
-    min-height: 40px;
+  .hero-content {
+    text-align: center;
   }
   
-  .input-container button {
-    padding: 12px 16px;
-    font-size: 1.1rem;
-    min-height: 40px;
-    min-width: 50px;
+  .hero-title {
+    font-size: 2.2rem;
   }
   
-  .message {
-    padding: 12px 16px;
-    font-size: 1rem;
-    margin-bottom: 6px;
+  .menu-navigation ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .info-boxes {
+    flex-direction: column;
+    align-items: center;
   }
 }
 

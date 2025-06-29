@@ -11,8 +11,27 @@
   <!-- Header -->
   <header class="main-header">
     <div class="header-content">
-      <img src="./PCU-Logo-master-Black.png" alt="PCU Logo" class="pcu-logo">
-      <h1>🎓 Universitas Kristen Petra Customer Service AI</h1>
+      <div class="logo-container">
+        <img src="./PCU-Logo-master-Black.png" alt="PCU Logo" class="pcu-logo">
+        <div class="logo-text">
+          <span>PETRA</span>
+          <span>CHRISTIAN</span>
+          <span>UNIVERSITY</span>
+        </div>
+      </div>
+      <div class="nav-container">
+        <div class="search-lang">
+          <button class="search-btn">🔍</button>
+          <div class="language-selector">ID | EN</div>
+        </div>
+        <nav class="main-nav">
+          <a href="#" class="nav-button">DAFTAR SEKARANG</a>
+          <a href="#" class="nav-button">INFO PENDAFTARAN</a>
+          <a href="#" class="nav-button">AKADEMIK</a>
+          <a href="#" class="nav-button">PENELITIAN</a>
+          <button class="menu-btn">☰</button>
+        </nav>
+      </div>
     </div>
   </header>
 
@@ -21,21 +40,43 @@
     📚 Loading Knowledge Base...
   </div>
 
-  <!-- Hero Section -->
+  <!-- Hero Section with Background Image -->
   <section class="hero-section">
+    <div class="bg-overlay"></div>
     <div class="hero-content">
-      <h2> Selamat Datang di Layanan Customer Service Universitas Kristen Petra</h2>
-      <p>
-        Dapatkan bantuan terkait program studi, pendaftaran, beasiswa, fasilitas kampus, dan informasi akademik lainnya.<br>
-        <strong>✨ Sistem AI kami dilengkapi dengan knowledge base Universitas Kristen Petra untuk jawaban yang lebih akurat!</strong><br>
-        Klik tombol <b>Customer Service</b> di kanan bawah untuk memulai chat!
-      </p>
+      <h1 class="hero-title">Pendaftaran Mahasiswa Baru</h1>
+    </div>
+  </section>
+  
+  <!-- Menu Navigation -->
+  <nav class="menu-navigation">
+    <ul>
+      <li><a href="#">Jalur Pendaftaran</a></li>
+      <li><a href="#">Beasiswa</a></li>
+      <li><a href="#">Kuis Bakat Minat</a></li>
+      <li><a href="#">FAQ</a></li>
+    </ul>
+  </nav>
+  
+  <!-- Info Boxes -->
+  <section class="info-boxes">
+    <div class="info-box">
+      <div class="info-icon">📚</div>
+      <div class="info-title">Katalog</div>
+    </div>
+    <div class="info-box">
+      <div class="info-icon">💰</div>
+      <div class="info-title">Biaya Kuliah</div>
+    </div>
+    <div class="info-box">
+      <div class="info-icon">📝</div>
+      <div class="info-title">Pendaftaran</div>
     </div>
   </section>
 
-  <!-- Floating Chat Button -->
+  <!-- Floating Chat Button (WhatsApp Style) -->
   <button id="cs-float-btn" class="cs-float-btn">
-    Customer Service
+    <i>💬</i>
   </button>
 
   <!-- Chat Widget (Initially Hidden) -->
