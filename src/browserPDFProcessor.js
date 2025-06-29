@@ -3,11 +3,12 @@
  * Handles PDF files through file input/upload instead of file system access
  */
 class BrowserPDFProcessor {
-  constructor() {
+  constructor(config = null) {
     this.processedDocuments = new Map();
     this.loadedLibraries = {
       pdfjs: null
     };
+    this.config = config; // Store config for chunk sizes
   }
 
   /**
@@ -182,24 +183,29 @@ class BrowserPDFProcessor {
    * @param {number} overlap - Number of characters to overlap between chunks
    * @returns {Array<{text: string, index: number}>}
    */
-  chunkText(text, chunkSize = 1000, overlap = 200) {
+  chunkText(text, chunkSize = null, overlap = null) {
+    const finalChunkSize = chunkSize || this.config?.pdf?.chunkSize || 1000;
+    const finalOverlap = overlap || this.config?.pdf?.overlap || 200;
+    
+    console.log(`🔧 Using chunk size: ${finalChunkSize}, overlap: ${finalOverlap}`);
+    
     const chunks = [];
     let start = 0;
     let index = 0;
 
     while (start < text.length) {
-      let end = start + chunkSize;
+      let end = start + finalChunkSize;
       
       // If we're not at the end of the text, try to break at a sentence or word boundary
       if (end < text.length) {
         // Look for sentence ending
         let sentenceEnd = text.lastIndexOf('.', end);
-        if (sentenceEnd > start + chunkSize * 0.5) {
+        if (sentenceEnd > start + finalChunkSize * 0.5) {
           end = sentenceEnd + 1;
         } else {
           // Look for word boundary
           let spaceIndex = text.lastIndexOf(' ', end);
-          if (spaceIndex > start + chunkSize * 0.5) {
+          if (spaceIndex > start + finalChunkSize * 0.5) {
             end = spaceIndex;
           }
         }
@@ -215,7 +221,7 @@ class BrowserPDFProcessor {
         });
       }
 
-      start = end - overlap;
+      start = end - finalOverlap;
     }
 
     return chunks;
@@ -228,7 +234,11 @@ class BrowserPDFProcessor {
    * @param {number} overlap - Overlap between chunks
    * @returns {Promise<Array>}
    */
-  async processDocumentsForRAG(input, chunkSize = 1000, overlap = 200) {
+  async processDocumentsForRAG(input, chunkSize = null, overlap = null) {
+    const finalChunkSize = chunkSize || this.config?.pdf?.chunkSize || 1000;
+    const finalOverlap = overlap || this.config?.pdf?.overlap || 200;
+    
+    console.log(`🔧 Processing documents with chunk size: ${finalChunkSize}, overlap: ${finalOverlap}`);
     console.log('🔄 Processing documents for RAG (Browser Mode)...');
     
     let processedDocs = [];
@@ -254,7 +264,7 @@ class BrowserPDFProcessor {
       const cleanText = this.cleanText(doc.text);
       
       // Create chunks
-      const chunks = this.chunkText(cleanText, chunkSize, overlap);
+      const chunks = this.chunkText(cleanText, finalChunkSize, finalOverlap);
       
       // Add metadata to each chunk
       chunks.forEach(chunk => {

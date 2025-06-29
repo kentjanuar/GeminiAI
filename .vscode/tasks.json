@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Test Chatbot",
+			"type": "shell",
+			"command": "cd \"c:\\Projek-projek\\GeminiAI\" && npm run dev",
+			"group": "test",
+			"isBackground": true
+		}
+	]
+}

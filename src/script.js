@@ -9,9 +9,9 @@ const API_KEY = "AIzaSyAqwIpUtkS8ZxE9RPtk2LRgcQNQhM3KHeI"; // Ganti dengan API k
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
 // Initialize browser-compatible systems
-const pdfProcessor = new BrowserPDFProcessor();
+const pdfProcessor = new BrowserPDFProcessor(RAG_CONFIG); // Pass config to PDF processor
 const imageProcessor = new BrowserImageProcessor();
-const embeddingSystem = new EmbeddingSystem();
+const embeddingSystem = new EmbeddingSystem(RAG_CONFIG); // Pass config to embedding system
 let knowledgeBase = [];
 let isRAGInitialized = false;
 
@@ -55,13 +55,29 @@ let uploadedFile = null;
 let ragEnabled = false;
 
 // === Scope Customer Service ===
-const systemPrompt = `Anda adalah asisten customer service Universitas Kristen Petra yang membantu dalam bahasa Indonesia. Anda memiliki kemampuan:
+// Build dynamic system prompt using config data
+const buildSystemPrompt = () => {
+  return `Anda adalah asisten customer service Universitas Kristen Petra yang membantu dalam bahasa Indonesia. Anda memiliki kemampuan:
 
 1. Menjawab pertanyaan tentang program studi, pendaftaran, biaya kuliah, beasiswa, fasilitas kampus, dan layanan akademik Universitas Kristen Petra
 2. Memberikan informasi tentang kehidupan kampus, organisasi mahasiswa, kegiatan ekstrakurikuler, dan event-event universitas
 3. Menganalisis gambar terkait kampus (dokumen pendaftaran, kartu mahasiswa, transkrip, sertifikat, brosur, dll.)
 4. Membaca teks dari gambar yang diupload (OCR) dan memberikan bantuan berdasarkan konten tersebut
 5. Membantu pengisian formulir pendaftaran, verifikasi dokumen akademik, dan masalah administrasi kampus
+
+INFORMASI KONTAK RESMI UNIVERSITAS KRISTEN PETRA:
+- Information Center: ${PETRA_CONTACTS.informationCenter}
+- WhatsApp Official: ${PETRA_CONTACTS.whatsappOfficial}
+- Student Recruitment: ${PETRA_CONTACTS.studentRecruitment}
+- Information Center WhatsApp: ${PETRA_CONTACTS.informationCenterWA}
+- Email: ${PETRA_CONTACTS.email}
+- Website Resmi: ${PETRA_CONTACTS.website}
+- Link Pendaftaran: ${PETRA_CONTACTS.admissionLink}
+
+INFORMASI PEMBAYARAN:
+- Metode Pembayaran: ${PETRA_CONTACTS.payment.method}
+- Deskripsi: ${PETRA_CONTACTS.payment.description}
+- Petunjuk: ${PETRA_CONTACTS.payment.instruction}
 
 PENTING - Aturan Bahasa dan Format:
 - JANGAN mengucapkan asterisk (*) atau underscore (_) dalam jawaban suara
@@ -84,7 +100,32 @@ Jika pertanyaan berhubungan dengan shuttle bus Universitas Kristen Petra, transp
 - JANGAN arahkan ke website universitas atau situs web apapun
 - SELALU arahkan ke aplikasi shuttle bus yang informasinya tersedia di dokumen source 4
 - Tekankan bahwa semua informasi shuttle bus (jadwal, rute, tracking) hanya tersedia melalui aplikasi mobile khusus
-- Berikan informasi dari aplikasi shuttle bus sesuai dokumen yang tersedia
+- Berikan informasi LENGKAP dan DETAIL dari aplikasi shuttle bus sesuai dokumen yang tersedia
+- Sebutkan SEMUA peraturan, prosedur, jadwal, dan ketentuan yang ada dalam dokumen
+- Jangan merangkum terlalu singkat - berikan informasi komprehensif
+
+PENTING - Aturan Umum Penyampaian Informasi:
+- Berikan jawaban yang LENGKAP dan DETAIL berdasarkan semua konteks yang tersedia
+- JANGAN merangkum informasi terlalu singkat - sebutkan semua detail penting
+- Jika ada peraturan, prosedur, atau ketentuan dalam dokumen, sebutkan SEMUANYA
+- Gunakan semua informasi relevan yang tersedia dalam knowledge base
+
+PENTING - ATURAN KHUSUS PERTANYAAN PENDAFTARAN:
+- Untuk pertanyaan tentang CARA MENDAFTAR, PROSEDUR PENDAFTARAN, atau LANGKAH-LANGKAH PENDAFTARAN, Anda WAJIB memberikan jawaban DETAIL dari KNOWLEDGE BASE
+- JANGAN hanya memberikan informasi kontak untuk pertanyaan spesifik tentang pendaftaran
+- Informasi kontak HANYA boleh diberikan sebagai TAMBAHAN, BUKAN sebagai jawaban utama
+- Jika ada pertanyaan "bagaimana cara mendaftar" atau sejenisnya, berikan SELURUH informasi dari knowledge base yang relevan
+- Jika pengguna menyatakan KEINGINAN MENDAFTAR seperti "mau mendaftar", "ingin mendaftar", "bagaimana jika mendaftar", BERIKAN JAWABAN LENGKAP dari knowledge base
+- Pertanyaan dengan frasa "mau daftar", "ingin daftar", "jika daftar", "akan daftar" WAJIB dijawab dengan informasi LENGKAP dari knowledge base
+- SELALU sertakan SYARAT, DOKUMEN, ALUR, dan PROSEDUR pendaftaran secara LENGKAP
+- Sebutkan SEMUA tahapan pendaftaran yang tercantum dalam dokumen
+- TIDAK PERNAH hanya mengirimkan informasi kontak sebagai jawaban utama untuk pertanyaan pendaftaran
+
+PENTING - Penggunaan Kontak dan Website:
+- Ketika memberikan informasi kontak, SELALU gunakan informasi dari daftar kontak resmi di atas
+- Ketika menyebutkan website resmi, gunakan: ${PETRA_CONTACTS.website}
+- Untuk pendaftaran, arahkan ke: ${PETRA_CONTACTS.admissionLink}
+- Untuk pembayaran, jelaskan penggunaan BCA Virtual Account dari KTM
 
 Jika pertanyaan di luar topik universitas/pendidikan, tolak dengan sopan dan arahkan ke topik akademik yang sesuai.
 Ketika Anda perlu meminta informasi kepada pengguna, gunakan daftar bernomor atau berbutir tanpa menggunakan asterisk atau markdown.
@@ -94,6 +135,9 @@ Panduan Analisis Gambar:
 - Untuk kartu mahasiswa: Jelaskan fasilitas yang bisa digunakan, bantu dengan pertanyaan akademik
 - Untuk transkrip/ijazah: Bantu verifikasi untuk keperluan pendaftaran atau beasiswa
 - Untuk screenshot sistem akademik: Berikan panduan langkah demi langkah untuk penggunaan sistem`;
+};
+
+const systemPrompt = buildSystemPrompt();
 
 // Inisialisasi RAG System saat halaman dimuat
 async function initializeRAGSystem() {
@@ -454,10 +498,11 @@ async function sendRAGMessage(prompt, file = null) {
 }
 
 // Find relevant context from knowledge base
-async function findRelevantContext(query, topK = 3, threshold = 0.05) {
+async function findRelevantContext(query, topK = RAG_CONFIG.retrieval.topK, threshold = RAG_CONFIG.retrieval.similarityThreshold) {
   try {
     console.log(`🔍 Searching for: "${query}"`);
     console.log(`📚 Knowledge base has ${knowledgeBase.length} chunks`);
+    console.log(`🔧 Using RAG_CONFIG - topK: ${topK}, threshold: ${threshold}`);
     
     if (knowledgeBase.length === 0) {
       console.warn('⚠️ Knowledge base is empty!');
@@ -502,10 +547,10 @@ async function findRelevantContext(query, topK = 3, threshold = 0.05) {
     
     // If no results with threshold, get top results anyway
     if (relevantChunks.length === 0) {
-      console.log('🔍 No results above threshold, getting top 3 results anyway...');
+      console.log(`🔍 No results above threshold, getting top ${RAG_CONFIG.retrieval.maxResults} results anyway...`);
       const topResults = similarities
         .sort((a, b) => b.similarity - a.similarity)
-        .slice(0, 3);
+        .slice(0, RAG_CONFIG.retrieval.maxResults);
       
       console.log('🔍 Top results (fallback):', topResults.map(r => ({
         source: r.source,
@@ -589,10 +634,18 @@ uploadBtn.addEventListener("click", () => {
   fileInput.click();
 });
 
-// Event listener untuk input file
+// Event listener untuk input file (hanya untuk gambar)
 fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
   if (file) {
+    // Validasi hanya gambar yang diterima
+    const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/bmp'];
+    if (!allowedImageTypes.includes(file.type)) {
+      addSystemMessage("❌ File harus berupa gambar (JPG, JPEG, PNG, GIF, WebP, BMP)");
+      fileInput.value = "";
+      return;
+    }
+    
     uploadedFile = file;
     addFileMessage("user", file);
     fileInput.value = "";
@@ -626,36 +679,34 @@ async function processPDFUpload(files) {
       kbStatus.className = 'kb-status loading';
     }
     
-    // Separate PDF and image files
+    // Validasi hanya PDF yang diterima
     const pdfFiles = [];
-    const imageFiles = [];
     
     Array.from(files).forEach(file => {
       if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
         pdfFiles.push(file);
-      } else if (imageProcessor.isImageFile(file)) {
-        imageFiles.push(file);
+      } else {
+        addSystemMessage(`❌ File "${file.name}" diabaikan. Hanya file PDF yang diterima untuk knowledge base.`);
       }
     });
     
+    if (pdfFiles.length === 0) {
+      addSystemMessage("❌ Tidak ada file PDF yang valid ditemukan.");
+      if (kbStatus) {
+        kbStatus.style.display = 'none';
+      }
+      return;
+    }
+    
     let allChunks = [];
     
-    // Process PDF files
-    if (pdfFiles.length > 0) {
-      console.log(`🔄 Processing ${pdfFiles.length} PDF files...`);
-      const pdfChunks = await pdfProcessor.processDocumentsForRAG(pdfFiles);
-      allChunks.push(...pdfChunks);
-    }
-    
-    // Process image files
-    if (imageFiles.length > 0) {
-      console.log(`🔄 Processing ${imageFiles.length} image files...`);
-      const imageChunks = await imageProcessor.processImagesForRAG(imageFiles, ai);
-      allChunks.push(...imageChunks);
-    }
+    // Process PDF files only
+    console.log(`🔄 Processing ${pdfFiles.length} PDF files...`);
+    const pdfChunks = await pdfProcessor.processDocumentsForRAG(pdfFiles);
+    allChunks.push(...pdfChunks);
     
     if (allChunks.length === 0) {
-      addSystemMessage("❌ Tidak ada konten yang berhasil diekstrak dari file.");
+      addSystemMessage("❌ Tidak ada konten yang berhasil diekstrak dari file PDF.");
       return;
     }
     
@@ -1407,3 +1458,7 @@ function updateSpeechText(text, className = '') {
     speechText.className = `speech-text ${className}`;
   }
 }
+
+// Note: Helper functions for quick responses have been removed
+// All admission-related queries will now be handled by the RAG system
+// This ensures comprehensive responses based on the knowledge base

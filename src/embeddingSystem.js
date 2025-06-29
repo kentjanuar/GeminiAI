@@ -6,11 +6,12 @@ import * as use from '@tensorflow-models/universal-sentence-encoder';
  * Uses Universal Sentence Encoder for creating embeddings
  */
 class EmbeddingSystem {
-  constructor() {
+  constructor(config = null) {
     this.model = null;
     this.embeddings = [];
     this.chunks = [];
     this.isLoaded = false;
+    this.config = config; // Store config for later use
   }
 
   /**
@@ -20,8 +21,10 @@ class EmbeddingSystem {
     try {
       console.log('🔄 Loading Universal Sentence Encoder...');
       
-      // Set TensorFlow backend to CPU for better compatibility
-      await tf.setBackend('cpu');
+      // Set TensorFlow backend based on config
+      const backend = this.config?.embedding?.modelBackend || 'cpu';
+      await tf.setBackend(backend);
+      console.log(`🔧 TensorFlow backend set to: ${backend}`);
       
       // Load the model
       this.model = await use.load();
@@ -225,7 +228,8 @@ class EmbeddingSystem {
    * Save embeddings to localStorage (for persistence)
    * @param {string} key - Storage key
    */
-  saveToStorage(key = 'bca_embeddings') {
+  saveToStorage(key = null) {
+    const storageKey = key || this.config?.embedding?.cacheKey || 'petra_embeddings';
     try {
       const data = {
         embeddings: this.embeddings,
@@ -233,8 +237,8 @@ class EmbeddingSystem {
         timestamp: Date.now()
       };
       
-      localStorage.setItem(key, JSON.stringify(data));
-      console.log('✅ Embeddings saved to storage');
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      console.log(`✅ Embeddings saved to storage with key: ${storageKey}`);
     } catch (error) {
       console.error('Failed to save embeddings to storage:', error);
     }
@@ -245,11 +249,12 @@ class EmbeddingSystem {
    * @param {string} key - Storage key
    * @returns {boolean}
    */
-  loadFromStorage(key = 'bca_embeddings') {
+  loadFromStorage(key = null) {
+    const storageKey = key || this.config?.embedding?.cacheKey || 'petra_embeddings';
     try {
-      const data = localStorage.getItem(key);
+      const data = localStorage.getItem(storageKey);
       if (!data) {
-        console.log('No embeddings found in storage');
+        console.log(`No embeddings found in storage with key: ${storageKey}`);
         return false;
       }
 
@@ -257,7 +262,7 @@ class EmbeddingSystem {
       this.embeddings = parsed.embeddings || [];
       this.chunks = parsed.chunks || [];
       
-      console.log(`✅ Loaded ${this.embeddings.length} embeddings from storage`);
+      console.log(`✅ Loaded ${this.embeddings.length} embeddings from storage (key: ${storageKey})`);
       return true;
     } catch (error) {
       console.error('Failed to load embeddings from storage:', error);

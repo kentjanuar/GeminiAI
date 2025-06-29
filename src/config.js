@@ -1,24 +1,25 @@
 
+
 export const RAG_CONFIG = {
   // PDF Processing Settings
   pdf: {
-    chunkSize: 1000,        // Size of text chunks for processing
-    overlap: 200,           // Overlap between chunks
-    maxContextLength: 2000  // Maximum context length for AI
+    chunkSize: 2000,        // Increased chunk size for more comprehensive content
+    overlap: 400,           // Increased overlap to maintain context
+    maxContextLength: 8000  // Increased max context for more detailed responses
   },
 
   // Embedding System Settings
   embedding: {
-    batchSize: 10,          // Number of chunks to process at once
+    batchSize: 15,          // Increased batch size for efficiency
     modelBackend: 'cpu',    // TensorFlow backend (cpu/webgl)
     cacheKey: 'petra_embeddings' // localStorage key for caching
   },
 
   // Retrieval Settings
   retrieval: {
-    topK: 3,                // Number of relevant chunks to retrieve
-    similarityThreshold: 0.05, // Minimum similarity score (0-1) - Very low for better recall
-    maxResults: 5           // Maximum search results
+    topK: 8,                // Increased to get more comprehensive context
+    similarityThreshold: 0.01, // Lowered threshold for better recall
+    maxResults: 10           // Increased maximum search results
   },
 
   // AI Generation Settings
@@ -95,28 +96,39 @@ export const DOCUMENT_SOURCES = [
   }
 ];
 
+// Universitas Kristen Petra Contact Information
+export const PETRA_CONTACTS = {
+  informationCenter: "(031) 2983000",
+  whatsappOfficial: "+62812-3406-7323",
+  studentRecruitment: "+62 813-5967-2800", 
+  informationCenterWA: "+62 815-6000-506",
+  email: "info@petra.ac.id",
+  website: "https://petra.ac.id",
+  admissionLink: "https://petra.ac.id/admission",
+  
+  // Payment Information
+  payment: {
+    method: "BCA Virtual Account",
+    description: "Pembayaran menggunakan BCA Virtual Account dari Kartu Tanda Mahasiswa (KTM)",
+    instruction: "Gunakan nomor Virtual Account BCA yang tertera di KTM Anda untuk pembayaran biaya kuliah dan administrasi"
+  }
+};
+
 // Predefined responses for common scenarios
 export const FALLBACK_RESPONSES = {
-  noContext: "Maaf, saya tidak menemukan informasi spesifik tentang hal tersebut dalam dokumen Universitas Kristen Petra. Silakan hubungi Information Center di (031) 2983000 atau email info@petra.ac.id untuk bantuan lebih lanjut.",
+  noContext: `Maaf, saya tidak menemukan informasi spesifik tentang hal tersebut dalam dokumen Universitas Kristen Petra. Silakan hubungi Information Center di ${PETRA_CONTACTS.informationCenter} atau email ${PETRA_CONTACTS.email} untuk bantuan lebih lanjut.`,
   
-  systemError: "Terjadi kesalahan sistem. Silakan coba lagi atau hubungi Information Center Universitas Kristen Petra di (031) 2983000.",
+  systemError: `Terjadi kesalahan sistem. Silakan coba lagi atau hubungi Information Center Universitas Kristen Petra di ${PETRA_CONTACTS.informationCenter}.`,
   
   outOfScope: "Pertanyaan Anda berada di luar lingkup layanan akademik Universitas Kristen Petra. Saya hanya dapat membantu dengan pertanyaan terkait program studi, pendaftaran, dan layanan kampus.",
   
   processing: "Sedang memproses pertanyaan Anda...",
   
-  welcome: "Selamat datang di layanan customer service Universitas Kristen Petra! Bagaimana saya dapat membantu Anda hari ini?"
-};
-
-// Universitas Kristen Petra Contact Information
-export const PETRA_CONTACTS = {
-  informationCenter: "(031) 2983000",
-  whatsappOfficial: "+62812-3406-7323",
-  studentRecruitment: "+62813-5967-2800", 
-  informationCenterWA: "+62815-6000-506",
-  email: "info@petra.ac.id",
-  website: "https://petra.ac.id",
-  admissionLink: "https://petra.ac.id/admission"
+  welcome: "Selamat datang di layanan customer service Universitas Kristen Petra! Bagaimana saya dapat membantu Anda hari ini?",
+  
+  paymentInfo: `Untuk pembayaran biaya kuliah dan administrasi, gunakan ${PETRA_CONTACTS.payment.method}. ${PETRA_CONTACTS.payment.instruction}.`,
+  
+  websiteInfo: `Website resmi Universitas Kristen Petra: ${PETRA_CONTACTS.website}. Untuk pendaftaran mahasiswa baru, kunjungi: ${PETRA_CONTACTS.admissionLink}.`
 };
 
 // Validation Rules
